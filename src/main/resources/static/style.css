@@ -3,20 +3,20 @@
 *.icon-green {color: green}
 *.icon-dark {color: gray}
 
-@media screen and (max-width: 768px) { /*màn hình < 768px*/
+@media screen and (max-width: 768px) { /*screen < 768px sẽ ẩn full-details và hiện less-details*/
 	/* small screen */
 	div.full-details { display: none; } 
 	div.less-details { display: block; } 
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) { /* 768px > màn hình < 1024px*/
+@media screen and (min-width: 768px) and (max-width: 1024px) { /* 768px > screen < 1024px sẽ ẩn less-details, các cột có khai báo class .hideable-column và hiện full-details*/
 	/* medium screen */
 	div.full-details { display: block; }
 	div.less-details { display: none; }
 	.hideable-column { display: none; }
 }
 
-@media screen and (min-width: 1024px) { /* màn hình > 1024px*/
+@media screen and (min-width: 1024px) { /* screen > 1024px sẽ ẩn less-details và hiện các cột có khai báo class .hideable-column dạng table*/
 	/* large screen */
 	div.less-details { display: none; }
 	.hideable-column { display: table-cell; }

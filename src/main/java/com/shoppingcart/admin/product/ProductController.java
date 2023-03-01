@@ -20,11 +20,9 @@ import com.shoppingcart.admin.FileUploadUtil;
 import com.shoppingcart.admin.brand.BrandService;
 import com.shoppingcart.admin.category.CategoryService;
 import com.shoppingcart.admin.security.ShoppingUserDetails;
-import com.shoppingcart.admin.user.UserService;
 import com.shoppingcart.admin.entity.Brand;
 import com.shoppingcart.admin.entity.Category;
 import com.shoppingcart.admin.entity.Product;
-import com.shoppingcart.admin.entity.User;
 import com.shoppingcart.admin.product.ProductNotFoundException;
 
 @Controller
@@ -90,20 +88,20 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("listBrands", listBrands);
 		model.addAttribute("pageTitle", "Create New Product");
-		model.addAttribute("numberOfExistingExtraImages", 0);
+		model.addAttribute("numberOfExistingExtraImages", 0);//khi tạo mới product thì extraImage đầu tiên sẽ có numberOfExistingExtraImages = 0
 		
 		return "products/product_form";
 	}
 	
-	@PostMapping("/products/save")//trong trường hợp truyền dạng post nhưng vẫn muốn lấy giá trị của input,select theo name thì dùng @RequestParam 
+	@PostMapping("/products/save")
 	public String saveProduct(Product product, RedirectAttributes ra,
-			@RequestParam(value = "fileImage", required = false) MultipartFile mainImageMultipart,			
-			@RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts,
-			@RequestParam(name = "detailIDs", required = false) String[] detailIDs,
-			@RequestParam(name = "detailNames", required = false) String[] detailNames,
-			@RequestParam(name = "detailValues", required = false) String[] detailValues,
-			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
-			@RequestParam(name = "imageNames", required = false) String[] imageNames,
+			@RequestParam(value = "fileImage", required = false) MultipartFile mainImageMultipart,//gán giá trị của thẻ có name="fileImage" vào mainImageMultipart 			
+			@RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts,//gán giá trị của tất cả các thẻ có name="extraImage" vào extraImageMultiparts
+			@RequestParam(name = "detailIDs", required = false) String[] detailIDs,//gán giá trị của tất cả các thẻ có name="detailIDs" vào detailIDs
+			@RequestParam(name = "detailNames", required = false) String[] detailNames,//...
+			@RequestParam(name = "detailValues", required = false) String[] detailValues,//...
+			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,//...
+			@RequestParam(name = "imageNames", required = false) String[] imageNames,//...
 			@AuthenticationPrincipal ShoppingUserDetails loggedUser
 			) throws IOException {
 		
@@ -115,16 +113,16 @@ public class ProductController {
 			}
 		}
 		
-		ProductSaveHelper.setMainImageName(mainImageMultipart, product);
-		ProductSaveHelper.setExistingExtraImageNames(imageIDs, imageNames, product);
-		ProductSaveHelper.setNewExtraImageNames(extraImageMultiparts, product);
-		ProductSaveHelper.setProductDetails(detailIDs, detailNames, detailValues, product);
+		ProductSaveHelper.setMainImageName(mainImageMultipart, product);//save mainImage
+		ProductSaveHelper.setExistingExtraImageNames(imageIDs, imageNames, product);//save extraImages đang tồn tại
+		ProductSaveHelper.setNewExtraImageNames(extraImageMultiparts, product);//save extraImages vừa thêm mới
+		ProductSaveHelper.setProductDetails(detailIDs, detailNames, detailValues, product);//save product details
 		
-		Product savedProduct = productService.save(product);
+		Product savedProduct = productService.save(product);//save product -->details và extraImages cũng sẽ được save luôn.
 		
-		ProductSaveHelper.saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);
+		ProductSaveHelper.saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);//save mainImage và extraImages vào folder tương ứng 
 		
-		ProductSaveHelper.deleteExtraImagesWeredRemovedOnForm(product);
+		ProductSaveHelper.deleteExtraImagesWeredRemovedOnForm(product);//xóa extraImages đã bị xóa trên frontend
 			
 		ra.addFlashAttribute("message", "The product has been saved successfully.");
 		
@@ -169,7 +167,7 @@ public class ProductController {
 		try {
 			Product product = productService.get(id);
 			List<Brand> listBrands = brandService.listAll();
-			Integer numberOfExistingExtraImages = product.getImages().size();
+			Integer numberOfExistingExtraImages = product.getImages().size();//số lượng extraImages đang có
 			
 			boolean isReadOnlyForSalesperson = false;
 			
@@ -198,8 +196,8 @@ public class ProductController {
 	public String viewProductDetails(@PathVariable("id") Integer id, Model model,
 			RedirectAttributes ra) {
 		try {
-			Product product = productService.get(id);			
-			model.addAttribute("product", product);		
+			Product product = productService.get(id);//lấy ra product theo id để hiển thị lên modal
+			model.addAttribute("product", product);
 			
 			return "products/product_detail_modal";
 			

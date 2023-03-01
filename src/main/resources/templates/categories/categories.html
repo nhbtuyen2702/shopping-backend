@@ -41,7 +41,7 @@
 					<td>
 						<div th:replace="fragments :: edit('category', '/categories/edit/' + ${cat.id})"></div>
 						&nbsp; 
-						<div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})"></div>			
+						<div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})"></div>	 <!-- ${!cat.hasChildren} để kiểm tra category có con hay ko -->		
 					</td>					
 				</tr>
 			</tbody>

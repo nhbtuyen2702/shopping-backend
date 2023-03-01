@@ -25,7 +25,7 @@ import com.shoppingcart.admin.entity.Category;
 public class BrandController {
 	private String defaultRedirectURL = "redirect:/brands/page/1?sortField=name&sortDir=asc";
 
-	@Autowired	private BrandService brandService;
+	@Autowired private BrandService brandService;
 
 	@Autowired private CategoryService categoryService;
 
@@ -65,7 +65,7 @@ public class BrandController {
 
 	@GetMapping("/brands/new")
 	public String newBrand(Model model) {
-		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();//lấy ra tất cả categories
 
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("brand", new Brand());

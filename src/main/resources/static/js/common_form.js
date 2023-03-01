@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	$("#buttonCancel").on("click", function () {
-		window.location = moduleURL;
+		window.location = moduleURL;//window.location dùng để gọi đến 1 @GetMapping bất kỳ
 	});
 
 	$("#fileImage").change(function () {
@@ -16,7 +16,7 @@ function showImageThumbnail(fileInput) {
 	var file = fileInput.files[0];
 	var reader = new FileReader();
 	reader.onload = function (e) {
-		$("#thumbnail").attr("src", e.target.result);
+		$("#thumbnail").attr("src", e.target.result);//gán giá trị của e.target.result vào thuộc tính srcs
 	};
 
 	reader.readAsDataURL(file);

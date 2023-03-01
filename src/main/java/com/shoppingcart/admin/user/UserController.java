@@ -25,46 +25,46 @@ import com.shoppingcart.admin.user.export.UserCsvExporter;
 import com.shoppingcart.admin.user.export.UserExcelExporter;
 import com.shoppingcart.admin.user.export.UserPdfExporter;
 
-@Controller
+@Controller//Controller là nơi tiếp nhận yêu cầu(request), controller sẽ gọi service để xử lý nghiệp vụ(logic), service sẽ gọi repository trong trường hợp muốn tương tác với database
 public class UserController {
 
-	private String defaultRedirectURL = "redirect:/users/page/1?sortField=firstName&sortDir=asc";
+	private String defaultRedirectURL = "redirect:/users/page/1?sortField=firstName&sortDir=asc";//đường dẫn mặc định
 
-	@Autowired
+	@Autowired//lấy Spring Bean userService trong IOC và nhúng vào Spring Bean userController -->UserService ko cần khởi tạo mà vẫn có thể sử dụng được là do nó đã được khởi tạo trong IOC
 	private UserService service;
 
-	@GetMapping("/users")
+	@GetMapping("/users")//localhost:8082/ShoppingCartAdmin/users
 	public String listFirstPage(Model model) {
 		return defaultRedirectURL;
 	}
 
-	@GetMapping("/users/page/{pageNum}")
+	@GetMapping("/users/page/{pageNum}")//localhost:8082/ShoppingCartAdmin/users/page/1?sortField=firstName&sortDir=asc -->1 là giá trị có thể thay đổi -->phải dùng @PathVariable(name = "pageNum") int pageNum để nó tự động gán giá trị vào biến pageNum 
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
-		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);
-		List<User> listUsers = page.getContent();
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {//@Param("sortField") String sortField dùng để lấy ra giá trị của key sortField -->nó sẽ gán giá trị value vào biến sortField 
+		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);//đối tượng Page chứa các thông tin về phân trang
+		List<User> listUsers = page.getContent();//lấy ra tất cả các records trong trang hiện tại
 
-		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
-		long endCount = startCount + UserService.USERS_PER_PAGE - 1;
+		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;//tính thứ tự của record bắt đầu trong trang hiện tại 
+		long endCount = startCount + UserService.USERS_PER_PAGE - 1;//tính thứ tự của record kết thúc trong trang hiện tại
 
-		if (endCount > page.getTotalElements()) {
+		if (endCount > page.getTotalElements()) {//nếu endCount > số records tối đa thì gán endCount = số records tối đa
 			endCount = page.getTotalElements();
 		}
 
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";//trường hợp nhấn sort trên firstName thì sẽ đảo ngược thứ tự của firstName
 
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("listUsers", listUsers);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("keyword", keyword);
+		model.addAttribute("currentPage", pageNum);//trang hiện tại
+		model.addAttribute("totalPages", page.getTotalPages());//tổng số trang
+		model.addAttribute("startCount", startCount);//index record bắt đầu
+		model.addAttribute("endCount", endCount);//index record kết thúc
+		model.addAttribute("totalItems", page.getTotalElements());//tổng số records(số records tối đa)
+		model.addAttribute("listUsers", listUsers);//tất cả user trong trang hiện tại
+		model.addAttribute("sortField", sortField);//field cần sắp xếp
+		model.addAttribute("sortDir", sortDir);//sắp xếp
+		model.addAttribute("reverseSortDir", reverseSortDir);//đảo ngược sắp xếp
+		model.addAttribute("keyword", keyword);//từ khóa tìm kiếm
 
-		return "users/users";
+		return "users/users";//trả về users/users.html
 	}
 
 	@GetMapping("/users/new")
@@ -74,7 +74,7 @@ public class UserController {
 		User user = new User();
 		user.setEnabled(true);
 
-		model.addAttribute("user", user);
+		model.addAttribute("user", user);//khi trả về form user_form.html thì bắt buộc phải khởi tạo 1 đối tượng user, vì trong form có khai báo th:object="${user}"
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("pageTitle", "Create New User");
 
@@ -82,18 +82,18 @@ public class UserController {
 	}
 
 	@PostMapping("/users/save")
-	public String saveUser(User user, RedirectAttributes redirectAttributes,
-			@RequestParam("image") MultipartFile multipartFile) throws IOException {
+	public String saveUser(User user, RedirectAttributes redirectAttributes,//redirectAttributes chỉ có tác dụng khi dùng "redirect:/.. -->gọi @GetMapping
+			@RequestParam("image") MultipartFile multipartFile) throws IOException {//trường hợp submit form có method là POST -->tất cả các giá trị trong form sẽ được gán vào đối tượng user. Nhưng nếu vẫn muốn lấy riêng các giá trị của thẻ input, select,...(những thẻ có thẻ nhập, chọn được) thì có thể dùng @RequestParam("image") -->lưu ý image là name của thẻ cần lấy --> <input type="file" id="fileImage" name="image"/> -->thẻ này có type="file" nên sẽ dùng đối tượng multipartFile để gán giá trị 
 
-		if (!multipartFile.isEmpty()) {
+		if (!multipartFile.isEmpty()) {//nếu multipartFile empty -->ko nhấn chọn hình
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			user.setPhotos(fileName);
+			user.setPhotos(fileName);//thuộc tính photo chỉ lưu tên hình, còn hình sẽ lưu trong folder user-photos
 			User savedUser = service.save(user);
 
 			String uploadDir = "user-photos/" + savedUser.getId();
 
-			FileUploadUtil.cleanDir(uploadDir);
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			FileUploadUtil.cleanDir(uploadDir);//xóa tất cả các file nằm bên trong folder hiện tại, vì 1 user chỉ có 1 hình
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);//save hình của user vào folder hiện tại
 		} else {
 			if (user.getPhotos().isEmpty())
 				user.setPhotos(null);
@@ -107,7 +107,7 @@ public class UserController {
 
 	private String getRedirectURLtoAffectedUser(User user) {
 		String firstPartOfEmail = user.getEmail().split("@")[0];
-		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
+		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;//trả về trang list users có keyword là email của user này
 	}
 
 	@GetMapping("/users/edit/{id}")
@@ -134,7 +134,7 @@ public class UserController {
 			service.delete(id);
 
 			String userPhotosDir = "user-photos/" + id;
-			FileUploadUtil.removeDir(userPhotosDir);
+			FileUploadUtil.removeDir(userPhotosDir);//sau khi delete user thì xóa folder chứa hình của user đó
 
 			redirectAttributes.addFlashAttribute("message", "The user ID " + id + " has been deleted successfully");
 
@@ -157,7 +157,7 @@ public class UserController {
 	}
 
 	@GetMapping("/users/export/csv")
-	public void exportToCSV(HttpServletResponse response) throws IOException {
+	public void exportToCSV(HttpServletResponse response) throws IOException {//HttpServletRequest và HttpServletResponse là 2 đối tượng có sẵn trong servlet, HttpServletRequest chứa các thông tin của request gửi đến, HttpServletResponse sẽ trả về thông tin cho request gửi đến
 		List<User> listUsers = service.listAll();
 		UserCsvExporter exporter = new UserCsvExporter();
 		exporter.export(listUsers, response);

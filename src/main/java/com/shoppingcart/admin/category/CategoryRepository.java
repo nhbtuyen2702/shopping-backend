@@ -13,7 +13,7 @@ import com.shoppingcart.admin.entity.Category;
 
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
-	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")
+	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")//sao sánh với NULL là is
 	public List<Category> findRootCategories(Sort sort);
 
 	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")

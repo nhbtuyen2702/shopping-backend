@@ -13,7 +13,7 @@ public class ShoppingUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepo;
 
-	@Override
+	@Override//implements Interface UserDetailsService phải @Override lại phương thức loadUserByUsername, đây là phương thức kiểm tra email và password
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepo.getUserByEmail(email);
 		if (user != null) {

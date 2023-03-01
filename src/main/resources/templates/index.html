@@ -13,7 +13,7 @@
 		
 		Welcome 
 		<a th:href="@{/account}" 
-			sec:authentication="principal.fullname"></a>	
+			sec:authentication="principal.fullname"></a> <!-- prinpical là đối tượng shoppingUserDetails =>có thể gọi đến các phương thức trong đối tượng này -->
 		<span sec:authentication="principal.authorities"></span>		
 	</div>
 

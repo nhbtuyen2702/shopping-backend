@@ -4,7 +4,7 @@
 <body>
 
 <div th:fragment="content" th:remove="tag">
-	<div class="row" id="divProductImages">
+	<div class="row" id="divProductImages"> <!--divProductImages sẽ dùng để append các extraImages  -->
 		<div class="col border m-3 p-2">
 			<div><label>Main Image: [[${product.mainImage}]]</label></div>
 			
@@ -22,6 +22,10 @@
 			<input type="hidden" th:field="*{mainImage}" />
 		</div>
 		
+		<!-- Ví dụ có 2 trường hợp xảy ra ở đây
+		vd1: create =>ko hiển thị
+		vd2: edit và đã save 3 extraImages trước đó =>load extraImages 0,1,2
+		 -->
 		<th:block th:each="productImage, status : ${product.images}">
 			<div class="col border m-3 p-2" th:id="'divExtraImage' + ${status.index}">
 				<div>
@@ -39,19 +43,23 @@
 				
 				<div>
 					<input type="file" name="extraImage" 
-						accept="image/png, image/jpeg" />
+						accept="image/png, image/jpeg" /> <!-- name="extraImage" =>@RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts -->
 				</div>
 				
 				<input type="hidden" name="imageIDs" th:id="'imageId' + ${status.index}"
-					th:value="${productImage.id}" />
+					th:value="${productImage.id}" /> <!-- name="imageIDs" = @RequestParam(name = "imageIDs", required = false) String[] imageIDs -->
 					
 				<input type="hidden" name="imageNames" th:id="'imageName' + ${status.index}"
-					th:value="${productImage.name}" />
+					th:value="${productImage.name}" /> <!-- name="imageNames" = @RequestParam(name = "imageNames", required = false) String[] imageNames -->
 			</div>		
 		</th:block>
 		
+		<!-- Ví dụ có 2 trường hợp xảy ra ở đây
+		vd1: create =>${numberOfExistingExtraImages} = 0
+		vd2: edit và đã save 3 extraImages trước đó =>${numberOfExistingExtraImages} = 3
+		 -->
 		<div class="col border m-3 p-2" th:id="'divExtraImage' + ${numberOfExistingExtraImages}">
-			<div th:id="'extraImageHeader' + ${numberOfExistingExtraImages}">
+			<div th:id="'extraImageHeader' + ${numberOfExistingExtraImages}"> <!-- extraImageHeader dùng để append link delete -->
 				<label>Extra Image #[[${numberOfExistingExtraImages + 1}]]:</label>
 			</div>
 			
@@ -63,7 +71,7 @@
 			
 			<div>
 				<input type="file" name="extraImage" 
-					accept="image/png, image/jpeg" />
+					accept="image/png, image/jpeg" /> <!-- name="extraImage" =>@RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts  -->
 			</div>
 		</div>		
 	</div>	

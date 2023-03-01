@@ -40,6 +40,7 @@
 		
 		<div class="col-sm-10">
 			<th:block th:if="${product.category != null}">
+				<!-- trường hợp edit: khi lần đầu load form lên thì product đã có brand và category rồi nên ko cần load category theo brand -->
 				<select th:field="*{category}" class="form-control" required>
 					<th:block th:each="cat : ${product.brand.categories}">
 						<option th:value="${cat.id}">[[${cat.name}]]</option>
@@ -47,6 +48,7 @@
 				</select>			
 			</th:block>
 			
+			<!-- trường hợp create: sẽ load category theo brand -->
 			<th:block th:if="${product.category == null}">
 				<select th:field="*{category}" class="form-control" required>
 				</select>

@@ -3,11 +3,11 @@ dropdownCategories = $("#category");
 
 $(document).ready(function() {
 	
-	$("#shortDescription").richText();
-	$("#fullDescription").richText();
+	$("#shortDescription").richText();//<textarea th:field="*{shortDescription}"/>
+	$("#fullDescription").richText();//<textarea th:field="*{fullDescription}"/>
 	
 	dropdownBrands.change(function() {
-		dropdownCategories.empty();
+		dropdownCategories.empty();//khi thay đổi dropdown Brand thì xóa tất cả các giá trị trong dropdown Category
 		getCategories();
 	});	
 	
@@ -23,16 +23,16 @@ function getCategoriesForNewForm() {
 		editMode = true;
 	}
 	
-	if (!editMode) getCategories();
+	if (!editMode) getCategories();//trường hợp edit thì lần đầu ko cần load category theo brand 
 }
 
 function getCategories() {
 	brandId = dropdownBrands.val(); 
 	url = brandModuleURL + "/" + brandId + "/categories";
 	
-	$.get(url, function(responseJson) {
+	$.get(url, function(responseJson) {//dùng Ajax JQuery để gọi xuống controller /brands/1/categories
 		$.each(responseJson, function(index, category) {
-			$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
+			$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);//tạo ra thẻ <option> và lần lượt gán giá trị trả về từ controller, sau đó append vào dropdownCategories 
 		});			
 	});
 }

@@ -1,14 +1,14 @@
 $(document).ready(function() {
 	$("#logoutLink").on("click", function(e) {
 		e.preventDefault();
-		document.logoutForm.submit();
+		document.logoutForm.submit();//<form th:action="@{/logout}" method="post" name="logoutForm"/>
 	});
 	
 	customizeDropDownMenu()
 });
 
 function customizeDropDownMenu() {
-	$(".navbar .dropdown").hover(
+	$(".navbar .dropdown").hover(//lấy ra tất cả thẻ có class .dropdown nằm trong thẻ có class .navbar
 		function() {
 			$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
 		},

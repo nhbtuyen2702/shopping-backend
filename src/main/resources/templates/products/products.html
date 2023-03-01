@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	
-<head th:replace="fragments :: page_head('Products - Shopme Admin', 'none')" />
+<head th:replace="fragments :: page_head('Products - Shopping Cart Admin', 'none')" />
 
 <body>
 
@@ -85,7 +85,7 @@
 						<a class="link-detail"
 							th:href="@{'/products/detail/' + ${product.id}}"
 							th:title="${product.name}"
-							>[[${product.shortName}]]</a>					
+							>[[${product.shortName}]]</a>				
 						
 					</td>
 					<td class="hideable-column">[[${product.brand.name}]]</td>
@@ -171,14 +171,14 @@
 			showDeleteConfirmModal($(this), 'product');
 		});
 		
-		$(".link-detail").on("click", function(e) {
-			e.preventDefault();
-			linkDetailURL = $(this).attr("href");
-			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
+		$(".link-detail").on("click", function(e) {//lấy ra thẻ có class là .link-detail và bắt sự kiện click cho thẻ này
+			e.preventDefault();//ngăn ko cho href gọi xuống controller
+			linkDetailURL = $(this).attr("href");//lấy ra giá trị của thẻ href -->/products/detail/1
+			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);//lấy ra thẻ có id là detailModal và hiển thị, tìm đến thẻ con bên trong có class là .modal-content và load nội dung của thẻ này nội dung trả về từ /products/detail/1  
 		});
 		
 		$("#dropdownCategory").on("change", function() {
-			$("#searchForm").submit();
+			$("#searchForm").submit();//khi thay đổi giá trị của dropdown thì sẽ submit form
 		});
 		
 	});

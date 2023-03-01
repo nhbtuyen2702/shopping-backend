@@ -38,9 +38,9 @@ public class CategoryService {
 		Page<Category> pageCategories = null;
 
 		if (keyword != null && !keyword.isEmpty()) {
-			pageCategories = repo.search(keyword, pageable);
+			pageCategories = repo.search(keyword, pageable);//nếu có nhập keyword thì tìm theo keyword
 		} else {
-			pageCategories = repo.findRootCategories(pageable);
+			pageCategories = repo.findRootCategories(pageable);//ko nhập keyword thì tìm tất cả
 		}
 
 		List<Category> rootCategories = pageCategories.getContent();
@@ -49,15 +49,15 @@ public class CategoryService {
 		pageInfo.setTotalPages(pageCategories.getTotalPages());
 
 		if (keyword != null && !keyword.isEmpty()) {
-			List<Category> searchResult = pageCategories.getContent();
+			List<Category> searchResult = pageCategories.getContent();//nếu có nhập keyword thì tìm theo keyword thì phân trang như users -->ko cần sắp xếp theo thứ tự cấp độ và ko cần thêm dấu -- vào mỗi cấp độ
 			for (Category category : searchResult) {
-				category.setHasChildren(category.getChildren().size() > 0);
+				category.setHasChildren(category.getChildren().size() > 0);//true -->có con, false -->ko có con
 			}
 
 			return searchResult;
 
 		} else {
-			return listHierarchicalCategories(rootCategories, sortDir);
+			return listHierarchicalCategories(rootCategories, sortDir);//ko nhập keyword thì tìm tất cả, sắp xếp theo thứ tự cấp độ và thêm dấu -- vào mỗi cấp độ
 		}
 	}
 
@@ -65,15 +65,15 @@ public class CategoryService {
 		List<Category> hierarchicalCategories = new ArrayList<>();
 
 		for (Category rootCategory : rootCategories) {
-			hierarchicalCategories.add(Category.copyFull(rootCategory));
+			hierarchicalCategories.add(Category.copyFull(rootCategory));//copy tất cả thuộc tính và set giá trị cho hasChildren
 
-			Set<Category> children = sortSubCategories(rootCategory.getChildren(), sortDir);
+			Set<Category> children = sortSubCategories(rootCategory.getChildren(), sortDir);//lấy ra các category con trực tiếp và sắp xếp theo name tăng dần hoặc giảm dần
 
 			for (Category subCategory : children) {
 				String name = "--" + subCategory.getName();
 				hierarchicalCategories.add(Category.copyFull(subCategory, name));
 
-				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1, sortDir);
+				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1, sortDir);//dủng đệ quy để lấy ra tất cả category con, cháu....
 			}
 		}
 
@@ -82,7 +82,7 @@ public class CategoryService {
 
 	private void listSubHierarchicalCategories(List<Category> hierarchicalCategories, Category parent, int subLevel, String sortDir) {
 		Set<Category> children = sortSubCategories(parent.getChildren(), sortDir);
-		int newSubLevel = subLevel + 1;
+		int newSubLevel = subLevel + 1;//level 1: --, level 2: ----, level 3: ------,...
 
 		for (Category subCategory : children) {
 			String name = "";
@@ -115,7 +115,7 @@ public class CategoryService {
 		Iterable<Category> categoriesInDB = repo.findRootCategories(Sort.by("name").ascending());
 
 		for (Category category : categoriesInDB) {
-			categoriesUsedInForm.add(Category.copyIdAndName(category));
+			categoriesUsedInForm.add(Category.copyIdAndName(category));//chỉ copy thuộc tính id và name -->vì chỉ cần hiển thị lên dropdown
 
 			Set<Category> children = sortSubCategories(category.getChildren());
 
@@ -202,11 +202,11 @@ public class CategoryService {
 	}
 
 	private SortedSet<Category> sortSubCategories(Set<Category> children, String sortDir) {
-		SortedSet<Category> sortedChildren = new TreeSet<>(new Comparator<Category>() {
+		SortedSet<Category> sortedChildren = new TreeSet<>(new Comparator<Category>() {//Anonymous function, vì đây là TreeSet nên phải khai báo tiêu chí sắp xếp các đối tượng category cho nó, nếu ko sẽ báo lỗi vì ko biết sắp xếp theo tiêu chí gì
 			@Override
-			public int compare(Category cat1, Category cat2) {
+			public int compare(Category cat1, Category cat2) {//phương thức compare trả về int
 				if (sortDir.equals("asc")) {
-					return cat1.getName().compareTo(cat2.getName());
+					return cat1.getName().compareTo(cat2.getName());//name là String -->phải dùng compareTo để so sánh, vì compareTo trả về int(ko dùng .equals vì .equals trả về boolean)
 				} else {
 					return cat2.getName().compareTo(cat1.getName());
 				}

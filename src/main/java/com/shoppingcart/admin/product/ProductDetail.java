@@ -20,7 +20,7 @@ public class ProductDetail extends IdBasedEntity {
 	private String value;
 	
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_id")//tạo ra khóa ngoại product_id trỏ đến id của product
 	private Product product;
 
 	public ProductDetail() {

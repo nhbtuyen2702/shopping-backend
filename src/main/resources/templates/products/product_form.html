@@ -4,7 +4,7 @@
 <head>
 	<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
 	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
-	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script><!-- sử dụng thư viện richText -->
 </head>
 
 <body>
@@ -45,7 +45,7 @@
 			  </li>		  
 			</ul>
 			
-			<div class="tab-content">
+			<div class="tab-content"><!-- mỗi tab sẽ tương ứng với một fragment -->
 			  <div class="tab-pane active p-3" id="overview" role="tabpanel">
 			  	<div th:replace="products/product_overview :: content"></div>
 			  </div>

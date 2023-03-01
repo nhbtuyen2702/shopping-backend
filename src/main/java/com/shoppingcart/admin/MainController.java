@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-	@GetMapping("")
+	@GetMapping("") //localhost:8082/ShoppingCartAdmin
 	public String viewHomePage() {
 		return "index";
 	}
 
 	@GetMapping("/login")
 	public String viewLoginPage() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();//trường hợp vừa login xong, đang ở trang index, bấm back lại thì nó vẫn giữ ở trang index
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {//nếu authentication == null thì chưa login
 			return "login";
 		}
 

@@ -72,7 +72,7 @@ public class Role extends IdBasedEntity {
 	}
 
 	@Override
-	public String toString() {
+	public String toString() {//<td>[[${user.roles}]]</td> -->trả về name của role
 		return this.name;
 	}
 

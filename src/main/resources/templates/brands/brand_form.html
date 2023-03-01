@@ -45,9 +45,9 @@
 			<div class="form-group row">
 				<label class="col-sm-4 col-form-label">Select one or more categories:</label>
 				
-				<div class="col-sm-8">
+				<div class="col-sm-8"> <!-- thuộc tính multiple dùng để chọn nhiều bằng cách giữ phím Ctrl -->
 					<select class="form-control" th:field="*{categories}" multiple required
-							style="resize: vertical; height: 200px">
+							style="resize: vertical; height: 200px"><!-- style="resize: vertical có thể kéo dropdown theo chiều dọc -->
 						<th:block th:each="cat : ${listCategories}">
 							<option th:value="${cat.id}">[[${cat.name}]]</option>
 						</th:block>
@@ -59,7 +59,7 @@
 				<label class="col-sm-4 col-form-label">Chosen categories:</label>
 				
 				<div class="col-sm-8">
-					<div id="chosenCategories">
+					<div id="chosenCategories"><!-- các giá trị được chọn ở dropdown sẽ hiện ở đây -->
 					</div>
 				</div>
 			</div>
@@ -81,24 +81,24 @@
 	moduleURL = "[[@{/brands}]]";
 	
 	$(document).ready(function() {
-		dropdownCategories = $("#categories");
-		divChosenCategories = $("#chosenCategories");
+		dropdownCategories = $("#categories");//dropdown
+		divChosenCategories = $("#chosenCategories");//div chứa các giá trị được chọn
 		
 		dropdownCategories.change(function() {
-			divChosenCategories.empty();
-			showChosenCategories();
+			divChosenCategories.empty();//xóa tất cả các giá trị ở div bên dưới
+			showChosenCategories();//dùng for để load lại từ đầu
 		});
 		
 		showChosenCategories();
 	});
 	
 	function showChosenCategories() {
-		dropdownCategories.children("option:selected").each(function() {
+		dropdownCategories.children("option:selected").each(function() {//lấy ra các thẻ con của thẻ select và chỉ lấy các thẻ "selected" -->trả về tất cả các thẻ đang selected
 			selectedCategory = $(this);
-			catId = selectedCategory.val();
-			catName = selectedCategory.text().replace(/-/g, "");
+			catId = selectedCategory.val();//lấy ra id của option
+			catName = selectedCategory.text().replace(/-/g, "");//lấy ra name của option
 			
-			divChosenCategories.append("<span class='badge badge-secondary m-1'>" + catName + "</span>");
+			divChosenCategories.append("<span class='badge badge-secondary m-1'>" + catName + "</span>");//thêm vào cuối bên trong thẻ div
 		});
 	}
 	

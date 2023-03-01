@@ -42,10 +42,10 @@ public class Product extends IdBasedEntity {
 	private String mainImage;
 	
 	@Column(name = "created_time", nullable = false, updatable = false)
-	private Date createdTime;
+	private Date createdTime;//java.util.Date;
 	
 	@Column(name = "updated_time")
-	private Date updatedTime;
+	private Date updatedTime;//java.util.Date;
 	
 	private boolean enabled;
 	
@@ -72,11 +72,11 @@ public class Product extends IdBasedEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<ProductImage> images = new HashSet<>();
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)//cascade = CascadeType.ALL -->khi thực hiện repo.save(product) thì nó sẽ thực hiện save tất cả các productImages bên trong product  
+	private Set<ProductImage> images = new HashSet<>();//vì 1 product có nhiều extraImages nên tạo 1 đối tượng productImage có mối quan hệ @ManyToOne với product
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductDetail> details = new ArrayList<>();
+	private List<ProductDetail> details = new ArrayList<>();//vì 1 product có nhiều details nên tạo 1 đối tượng productDetail có mối quan hệ @ManyToOne với product
 
 	public Product(Integer id) {
 		this.id = id;
@@ -266,14 +266,14 @@ public class Product extends IdBasedEntity {
 	}
 	
 	public void addDetail(String name, String value) {
-		this.details.add(new ProductDetail(name, value, this));
+		this.details.add(new ProductDetail(name, value, this));//productDetail chưa từng được save xuống db
 	}
 
 	public void addDetail(Integer id, String name, String value) {
-		this.details.add(new ProductDetail(id, name, value, this));
+		this.details.add(new ProductDetail(id, name, value, this));//productDetail đã từng được save xuống db
 	}
 	
-	public boolean containsImageName(String imageName) {
+	public boolean containsImageName(String imageName) {//nếu extraImage có name trùng với extraImage khác thì ko cho save
 		Iterator<ProductImage> iterator = images.iterator();
 		
 		while (iterator.hasNext()) {

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"> <!-- xài engine của thymeleaf -->
 
-<head th:replace="fragments :: page_head('Users - Shopping Cart Admin', 'none')" />
+<head th:replace="fragments :: page_head('Users - Shopping Cart Admin', 'none')" /> <!-- lấy fragment page_head gán vào vị trí này -->
 
 <body>
 <div class="container-fluid">
-	    <div th:replace="navigation :: menu"></div>
+	    <div th:replace="navigation :: menu"></div> <!-- lấy fragment navigation gán vào vị trí này -->
 	
 	    <div>
 	       <h2>Manage Users</h2>
-	       <a th:href="@{/users/new}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
-	       <a th:href="@{/users/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
-	       <a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-dark mr-2"></a>
-	       <a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a>
+	       <a th:href="@{/users/new}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a> <!-- tạo mới user -->
+	       <a th:href="@{/users/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a> <!-- xuất file csv -->
+	       <a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-dark mr-2"></a> <!-- xuất file excel -->
+	       <a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a> <!-- xuất file pdf -->
 	    </div>
 	
 	    <div th:replace="fragments :: search_form_and_message('/users/page/1')"></div>
@@ -44,8 +44,8 @@
 	          </thead>
 	
 	          <tbody>
-	             <tr th:each="user : ${listUsers}">
-	                <td class="hideable-column">[[${user.id}]]</td>
+	             <tr th:each="user : ${listUsers}"> <!-- listUsers được truyền từ model  -->
+	                <td class="hideable-column">[[${user.id}]]</td> <!-- hiển thị giá trị trên html dùng [[${user.id}]], lưu ý: user.id = user.getId() -->
 	                <td>
 	                   <div th:replace="fragments :: user_photos"></div>
 	                </td>
@@ -54,7 +54,7 @@
 	                <td>[[${user.lastName}]]</td>
 	                <td>[[${user.roles}]]</td>
 	                <td>
-	                   <div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div>
+	                   <div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div> <!-- lấy giá trị của biến dùng ${user.enabled} -->
 	                </td>
 	                <td>
 	                   <div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})"></div>
@@ -102,12 +102,12 @@
 <script th:src="@{/js/common_list.js}"></script>
 
 <script type="text/javascript">
-   moduleURL = "[[@{/users}]]";
+   moduleURL = "[[@{/users}]]"; //tương ứng với /ShoppingCartAdmin/users -->tự động thêm context-path vào trước. Lưu ý chỉ sử dụng trong file hmtl, ko sử dụng trong file js
 
-   $(document).ready(function () {
-      $(".link-delete").on("click", function (e) {
-         e.preventDefault();
-         showDeleteConfirmModal($(this), 'user');
+   $(document).ready(function () {//khi users.html được load lên thì nó sẽ chạy vào phương thức ready() này, ready() dùng để khai báo các sự kiện(event) cho các thẻ
+      $(".link-delete").on("click", function (e) {//$(".link-delete") lấy ra thẻ có class là link-delete -->thẻ <a>, bắt sự kiện click cho thẻ <a> này
+         e.preventDefault();//ko cho href xảy ra -->ko gọi xuống controller
+         showDeleteConfirmModal($(this), 'user');//$(this) chính là thẻ hiện tại, $(this) là 1 đối tượng JQuery -->có thể sử dụng các phương thức của JQuery
       });
    });
 </script>

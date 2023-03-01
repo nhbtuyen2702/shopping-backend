@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {//phải khai báo folder chứa hình thì mới truy cập được đến các folder hình này
 		exposeDirectory("user-photos", registry);
 		exposeDirectory("category-images", registry);
 		exposeDirectory("brand-logos", registry); 
@@ -21,7 +21,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	private void exposeDirectory(String pathPattern, ResourceHandlerRegistry registry) {
 		Path path = Paths.get(pathPattern);
 
-		String absolutePath = path.toFile().getAbsolutePath();
+		String absolutePath = path.toFile().getAbsolutePath();//đường dẫn đến folder chứa hình
 
 		String logicalPath = pathPattern.replace("../", "") + "/**";
 

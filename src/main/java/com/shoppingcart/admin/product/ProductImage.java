@@ -18,7 +18,7 @@ public class ProductImage extends IdBasedEntity {
 	private String name;
 	
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_id")//tạo ra khóa ngoại product_id trỏ đến id của product
 	private Product product;
 	
 	public ProductImage() {

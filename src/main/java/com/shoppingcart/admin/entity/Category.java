@@ -28,15 +28,15 @@ public class Category extends IdBasedEntity {
 	private boolean enabled;
 	
 	@Column(name = "all_parent_ids", length = 256, nullable = true)
-	private String allParentIDs;
+	private String allParentIDs;//solution để tìm product theo category
 
-	@OneToOne
-	@JoinColumn(name = "parent_id")
-	private Category parent;
+	@OneToOne//1-1
+	@JoinColumn(name = "parent_id")//tạo ra cột parent_id trong table categories, parent_id là khóa ngoại sẽ trỏ đến khóa chính id của table categories
+	private Category parent;//1-1 nên khai báo 1 đối tượng
 
-	@OneToMany(mappedBy = "parent")
-	@OrderBy("name asc")
-	private Set<Category> children = new HashSet<>();
+	@OneToMany(mappedBy = "parent")//1-N
+	@OrderBy("name asc")//các categories được sắp xếp theo name tăng dần
+	private Set<Category> children = new HashSet<>();//1-N nên khai báo 1 Set
 
 	public Category() {
 	}
@@ -163,7 +163,7 @@ public class Category extends IdBasedEntity {
 	}
 
 	@Transient
-	private boolean hasChildren;
+	private boolean hasChildren;//dùng biến này đế nhận biết category hiện tại có con hay ko
 
 	@Override
 	public String toString() {

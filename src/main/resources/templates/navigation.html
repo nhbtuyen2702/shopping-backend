@@ -14,14 +14,14 @@
 				<img th:src="@{/images/shopping-logo.png}" width="100px" />
 			</a>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse"	data-target="#topNavbar">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"	data-target="#topNavbar"><!-- less-details sẽ hiện button có 3 dấu gạch, bấm vào sẽ mở ra navigation bar -->
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<div class="collapse navbar-collapse" id="topNavbar">
+			<div class="collapse navbar-collapse" id="topNavbar"><!-- data-target="#topNavbar" -->
 				<ul class="navbar-nav">
 
-					<th:block sec:authorize="hasAuthority('Admin')">
+					<th:block sec:authorize="hasAuthority('Admin')"> <!-- user có role Admin mới được thấy các links bên trong -->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/users}">Users</a>
 							
@@ -32,7 +32,7 @@
 						</li>
 					</th:block>
 
-					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')"> <!-- user có role Admin hoặc Editor mới được thấy các links bên trong -->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/categories}">Categories</a>
 							

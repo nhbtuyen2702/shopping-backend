@@ -39,16 +39,16 @@ public class ProductService {
 		if (keyword != null && !keyword.isEmpty()) {
 			if (categoryId != null && categoryId > 0) {
 				String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
-				page = repo.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);//find all by keyword & categoryId
+				page = repo.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);//lấy tất cả product theo keyword và categoryId
 			} else {
-				page = repo.findAll(keyword, pageable);//find all by keyword
+				page = repo.findAll(keyword, pageable);//lấy tất cả product theo keyword
 			}
 		} else {
 			if (categoryId != null && categoryId > 0) {
 				String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
-				page = repo.findAllInCategory(categoryId, categoryIdMatch, pageable);//find all by categoryId
+				page = repo.findAllInCategory(categoryId, categoryIdMatch, pageable);//lấy tất cả product theo categoryId
 			} else {		
-				page = repo.findAll(pageable);//find all
+				page = repo.findAll(pageable);//lấy tất cả product
 			}
 		}
 		
@@ -56,7 +56,7 @@ public class ProductService {
 	}	
 	
 	public Product save(Product product) {
-		if (product.getId() == null) {
+		if (product.getId() == null) {//chỉ gán giá trị cho createTime 1 lần duy nhất lúc tạo mới(create) 
 			product.setCreatedTime(new Date());
 		}
 		
@@ -67,7 +67,7 @@ public class ProductService {
 			product.setAlias(product.getAlias().replaceAll(" ", "-"));
 		}
 		
-		product.setUpdatedTime(new Date());
+		product.setUpdatedTime(new Date());//luôn luôn gán giá trị cho updateTime mỗi lần save
 		
 		Product updatedProduct = repo.save(product);
 		
@@ -88,9 +88,9 @@ public class ProductService {
 		Product productByName = repo.findByName(name);
 		
 		if (isCreatingNew) {
-			if (productByName != null) return "Duplicate";
+			if (productByName != null) return "Duplicate";//create
 		} else {
-			if (productByName != null && productByName.getId() != id) {
+			if (productByName != null && productByName.getId() != id) {//edit
 				return "Duplicate";
 			}
 		}

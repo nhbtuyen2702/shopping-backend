@@ -1,6 +1,6 @@
 package com.shoppingcart.admin.brand;
 
-public class CategoryDTO {
+public class CategoryDTO {//DTO: Data Transfer Object
 	
 	private Integer id;
 	private String name;

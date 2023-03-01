@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<!-- chứa các fragments để các file html có thể dùng chung -->
 <head th:fragment="page_head(title, remove)" th:remove="${remove}">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
@@ -17,7 +18,7 @@
 
 <body>
 
-	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}"><!-- th:remove='tag' =>xóa thẻ ngoài cùng, th:remove='none' =>giữa thẻ ngoài cùng -->
 		<a class="text-white"
 			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
 			[[${columnLabel}]]
@@ -46,7 +47,7 @@
 	</div>
 
 	<div th:fragment="delete(entityName, entityId, deleteURL, visible)" th:remove="tag">
-		<th:block th:if="${visible}">
+		<th:block th:if="${visible}"> <!-- visible dùng đế kiểm tra category có con hay ko, nếu có con thì ko cho delete -->
 			<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{${deleteURL}}" th:entityId="${entityId}"
 				th:title="'Delete this ' + ${entityName}"></a>
 		</th:block>
@@ -82,11 +83,11 @@
 			<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
 		</div>
 
-		<div class="text-center m-1" th:unless="${totalItems > 0}">
+		<div class="text-center m-1" th:unless="${totalItems > 0}"> <!-- nếu tổng số records = 0 =>hiện No Users found -->
 			<span>No [[${entityName}]] found</span>
 		</div>
 
-		<div th:if="${totalPages > 1}">
+		<div th:if="${totalPages > 1}"> <!-- khi tổng số trang > 1 thì mới hiện pagination -->
 			<nav>
 				<ul class="pagination justify-content-center flex-wrap">
 					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">

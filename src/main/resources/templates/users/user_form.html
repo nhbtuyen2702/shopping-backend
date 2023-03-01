@@ -12,10 +12,16 @@
         <h2>Manage Users | [[${pageTitle}]]</h2>
      </div>
 
+	<!-- khi bấm nút submit thì nó sẽ thực hiện action của form =>gọi xuống @PostMapping("/users/save")
+	style="max-width: 700px; margin: 0 auto" =>width:700px và canh giữa
+	th:object="${user}" =>model.addAttribute("user", user)
+	enctype="multipart/form-data" vì có dùng thẻ <input type="file" id="fileImage" name="image" accept="image/png, image/jpeg"/>
+	onsubmit="return checkEmailUnique(this);" =>khi bấm submit nó sẽ ko thực hiện action của form mà sẽ gọi function checkEmailUnique
+	 -->
      <form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto" 
         th:object="${user}" enctype="multipart/form-data" onsubmit="return checkEmailUnique(this);">
         
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{id}" /><!-- id là tên thuộc tính trong entity, th:field="*{id}" tương đương id = "id" và name = "id" -->
 
         <div class="border border-secondary rounded p-3">
            <div class="form-group row">
@@ -60,8 +66,8 @@
               
               <div class="col-sm-8">
                  <th:block th:each="role : ${listRoles}">
-                    <input type="checkbox" th:field="*{roles}" th:text="${role.name}" th:value="${role.id}"
-                       class="m-2" />
+                    <input type="checkbox" th:field="*{roles}" th:text="${role.name}" th:value="${role.id}" 
+                       class="m-2" /><!-- value là id và name là name -->
                     - <small>[[${role.description}]]</small>
                     <br />
                  </th:block>
@@ -81,8 +87,8 @@
               
               <div class="col-sm-8">
                  <input type="hidden" th:field="*{photos}" />
-                 <input type="file" id="fileImage" name="image" accept="image/png, image/jpeg" class="mb-2" />
-                 <img id="thumbnail" alt="Photos preview" th:src="@{${user.photosImagePath}}" class="img-fluid" />
+                 <input type="file" id="fileImage" name="image" accept="image/png, image/jpeg" class="mb-2" /> <!-- button để nhấn chọn hình -->
+                 <img id="thumbnail" alt="Photos preview" th:src="@{${user.photosImagePath}}" class="img-fluid" /> <!-- hình hiển thị -->
               </div>
            </div>
 
@@ -99,7 +105,7 @@
 
 </div>
 
-   <script th:src="@{/js/common_form.js}"></script>
+   <script th:src="@{/js/common_form.js}"></script> <!-- nhúng file common_form.js vào user_form.html =>common_form.js sẽ thấy được các biến và function khai báo trong user_form.html -->
 
    <script type="text/javascript">
       MAX_FILE_SIZE = 102400;
@@ -108,23 +114,23 @@
 
       function checkEmailUnique(form) {
          url = "[[@{/users/check_email}]]";
-         userEmail = $("#email").val();
+         userEmail = $("#email").val();//dùng JQuery để lấy ra giá trị của thẻ theo email
          userId = $("#id").val();
 
          csrfValue = $("input[name='_csrf']").val();
 
-         params = { id: userId, email: userEmail, _csrf: csrfValue };
+         params = { id: userId, email: userEmail, _csrf: csrfValue };//vì đây là method POST nên sẽ truyền data xuống controller bằng body =>tạo đối tượng object params
 
-         $.post(url, params, function (response) {
+         $.post(url, params, function (response) {//dùng Ajax JQuery để gọi xuống controller
             if (response == "OK") {
-               form.submit();
+               form.submit();//nếu controller trả về "OK" -->ko trùng -->form.submit() sẽ gọi @PostMapping("/users/save")
             } else if (response == "Duplicated") {
-               showWarningModal("There is another user having the email " + userEmail);
+               showWarningModal("There is another user having the email " + userEmail);//nếu trùng thì hiện modal báo lỗi
             } else {
-               showErrorModal("Unknown response from server");
+               showErrorModal("Unknown response from server");//nếu xảy ra lỗi khác thì báo lỗi
             }
          }).fail(function () {
-            showErrorModal("Could not connect to the server");
+            showErrorModal("Could not connect to the server");//nếu ko gọi xuống được controller thì báo lỗi 
          });
 
          return false;

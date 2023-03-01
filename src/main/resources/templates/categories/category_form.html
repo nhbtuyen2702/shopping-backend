@@ -38,7 +38,7 @@
 				
 				<div class="col-sm-8">
 					<select class="form-control" th:field="*{parent}">
-						<option value="0">[No Parent]</option>
+						<option value="0">[No Parent]</option> <!-- option đầu tiên sẽ có id = 0, name = "[No Parent]" -->
 						
 						<th:block th:each="cat : ${listCategories}">
 							<option th:value="${cat.id}">[[${cat.name}]]</option>

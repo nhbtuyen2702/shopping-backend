@@ -12,18 +12,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-@Entity
-@Table(name = "users")
+//Lưu ý cách đặt tên trong toàn bộ entity này, khi tạo xong table thì phải alter table vả sắp xếp thứ tự các cột giống trong entity
+@Entity//khai báo class này là 1 entity, nếu ko khai báo name cho entity thì nó lấy tên class làm tên entity
+@Table(name = "users")//khai báo table tương ứng của entity này là users
 public class User extends IdBasedEntity {
 
-	@Column(length = 128, nullable = false, unique = true)
+	@Column(length = 128, nullable = false, unique = true)//length: độ dài lưu trữ, nullable: có cho save null hay ko, unique: có cho phép trùng hay ko
 	private String email;
 
 	@Column(length = 64, nullable = false)
 	private String password;
 
-	@Column(name = "first_name", length = 45, nullable = false)
+	@Column(name = "first_name", length = 45, nullable = false)//khai báo tên cột là first_name, nếu ko khai báo sẽ lấy tên thuộc tính làm tên cột
 	private String firstName;
 
 	@Column(name = "last_name", length = 45, nullable = false)
@@ -34,9 +34,11 @@ public class User extends IdBasedEntity {
 
 	private boolean enabled;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+	@ManyToMany(fetch = FetchType.EAGER)//fetch = FetchType.EAGER, nếu lấy user thì cũng sẽ lấy toàn bộ roles thuộc về user đó
+	@JoinTable(name = "users_roles", //tạo ra table tên là users_roles, users_roles chứa khóa ngoại user_id trỏ đến id của table users và role_id trỏ đến id của table roles
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();//dùng Set ko dùng List
 
 	public User() {
 	}
@@ -109,12 +111,12 @@ public class User extends IdBasedEntity {
 	}
 
 	@Override
-	public String toString() {
+	public String toString() {//System.out.println(user) sẽ chạy vào phương thức này
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", roles=" + roles + "]";
 	}
 
-	@Transient
+	@Transient//@Transient sẽ bị bỏ qua khi làm việc với entity user
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
@@ -122,8 +124,8 @@ public class User extends IdBasedEntity {
 	@Transient
 	public String getPhotosImagePath() {
 		if (id == null || photos == null)
-			return "/images/default-user.png";
-		return "/user-photos/" + this.id + "/" + this.photos;
+			return "/images/default-user.png";//nếu id == null thì hiển thị hình mặc định
+		return "/user-photos/" + this.id + "/" + this.photos;//đường dẫn đến file hình
 	}
 
 	public boolean hasRole(String roleName) {
