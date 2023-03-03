@@ -65,7 +65,7 @@ public class BrandController {
 
 	@GetMapping("/brands/new")
 	public String newBrand(Model model) {
-		List<Category> listCategories = categoryService.listCategoriesUsedInForm();//lấy ra tất cả categories
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();//lấy ra tất cả categories, chỉ cần đổ category lên dropdown nên sẽ gọi phương thức listCategoriesUsedInForm()
 
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("brand", new Brand());

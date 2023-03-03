@@ -4,27 +4,27 @@
 <body>
 
 <div th:fragment="content" id="divProductDetails">
-	<th:block th:each="detail, status : ${product.details}">
-		<div class="form-inline" th:id="'divDetail' + ${status.index}">
-			<input type="hidden" name="detailIDs" th:value="${detail.id}" />
+	<th:block th:each="detail, status : ${product.details}"><!-- vòng lặp có 2 tham số, tham số thứ 1 là product, tham số thứ 2 là 1 đối tượng có thể .index(trả về index bắt đầu từ 0) hoặc .count(trả về index bắt đầu từ 1) -->
+		<div class="form-inline" th:id="'divDetail' + ${status.index}"><!-- id dùng để xóa div này -->
+			<input type="hidden" name="detailIDs" th:value="${detail.id}" /> <!-- name="detailIDs" sẽ truyền dữ liệu xuống controller -->
 			
 			<label class="m-3">Name:</label>
 			
-			<input type="text" class="form-control w-25" name="detailNames" maxlength="255"
-				th:value="${detail.name}" />
+			<input type="text" class="form-control w-25" name="detailNames" maxlength="255" 
+				th:value="${detail.name}" /> <!-- name="detailNames" sẽ truyền dữ liệu xuống controller -->
 				
 			<label class="m-3">Value:</label>
 			
 			<input type="text" class="form-control w-25" name="detailValues" maxlength="255"
-				th:value="${detail.value}" />
+				th:value="${detail.value}" /> <!-- name="detailValues" sẽ truyền dữ liệu xuống controller -->
 				
 			<a name="linkRemoveDetail" class="btn fas fa-times-circle fa-2x icon-dark"
-				title="Remove this detail"></a>			
+				title="Remove this detail"></a> <!-- khai báo onClick để xóa div -->			
 		</div>	
 	</th:block>
 	
-	<div class="form-inline" th:id="'divDetail' + ${#lists.size(product.details)}">
-		<input type="hidden" name="detailIDs" value="0" />
+	<div class="form-inline" th:id="'divDetail' + ${#lists.size(product.details)}"> <!-- #lists.size trả về độ dài của list details  -->
+		<input type="hidden" name="detailIDs" value="0" /> <!-- các details mới được tạo sẽ có value = 0 -->
 		
 		<label class="m-3">Name:</label>
 		

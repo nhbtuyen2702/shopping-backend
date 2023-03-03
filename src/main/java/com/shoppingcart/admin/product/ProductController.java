@@ -28,7 +28,7 @@ import com.shoppingcart.admin.product.ProductNotFoundException;
 @Controller
 public class ProductController {
 	
-	private String defaultRedirectURL = "redirect:/products/page/1?sortField=name&sortDir=asc&categoryId=0";
+	private String defaultRedirectURL = "redirect:/products/page/1?sortField=name&sortDir=asc&categoryId=0";//đường dẫn mặc định
 	
 	@Autowired private ProductService productService;
 	
@@ -49,9 +49,9 @@ public class ProductController {
 		Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
 		List<Product> listProducts = page.getContent();
 		
-		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();//đổ list categories lên dropdown
 		
-		long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE+ 1;
+		long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
 		long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
 
 		if (endCount > page.getTotalElements()) {
@@ -118,7 +118,7 @@ public class ProductController {
 		ProductSaveHelper.setNewExtraImageNames(extraImageMultiparts, product);//save extraImages vừa thêm mới
 		ProductSaveHelper.setProductDetails(detailIDs, detailNames, detailValues, product);//save product details
 		
-		Product savedProduct = productService.save(product);//save product -->details và extraImages cũng sẽ được save luôn.
+		Product savedProduct = productService.save(product);//save product -->details và extraImages bên trong product cũng sẽ được save luôn.
 		
 		ProductSaveHelper.saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);//save mainImage và extraImages vào folder tương ứng 
 		
@@ -149,8 +149,8 @@ public class ProductController {
 			String productExtraImagesDir = "../product-images/" + id + "/extras";
 			String productImagesDir = "../product-images/" + id;
 			
-			FileUploadUtil.removeDir(productExtraImagesDir);
-			FileUploadUtil.removeDir(productImagesDir);
+			FileUploadUtil.removeDir(productExtraImagesDir);//xóa folder chứa extraImges
+			FileUploadUtil.removeDir(productImagesDir);//xóa folder chứa mainImage
 			
 			redirectAttributes.addFlashAttribute("message", 
 					"The product ID " + id + " has been deleted successfully");
@@ -181,7 +181,7 @@ public class ProductController {
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
 			model.addAttribute("pageTitle", "Edit Product (ID: " + id + ")");
-			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);//numberOfExistingExtraImages = số lượng extraImages đang có
 			
 			return "products/product_form";
 			

@@ -23,7 +23,7 @@ function getCategoriesForNewForm() {
 		editMode = true;
 	}
 	
-	if (!editMode) getCategories();//trường hợp edit thì lần đầu ko cần load category theo brand 
+	if (!editMode) getCategories();//trường hợp edit thì lần đầu ko cần load category theo brand, vì bên trong product đã có brand và category rồi
 }
 
 function getCategories() {

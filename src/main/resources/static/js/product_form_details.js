@@ -22,10 +22,10 @@ function addNextDetailSection() {
 		</div>	
 	`;
 	
-	$("#divProductDetails").append(htmlDetailSection);//thêm detail vào cuối divProductDetails
+	$("#divProductDetails").append(htmlDetailSection);//thêm detail mới vào cuối divProductDetails
 
-	previousDivDetailSection = allDivDetails.last();//lấy ra div cuối tại thời điểm trước khi thêm
-	previousDivDetailID = previousDivDetailSection.attr("id");//lấy ra id
+	previousDivDetailSection = allDivDetails.last();//lấy ra div kế cuối
+	previousDivDetailID = previousDivDetailSection.attr("id");//lấy ra id của div kế cuối
 	 	
 	htmlLinkRemove = `
 		<a class="btn fas fa-times-circle fa-2x icon-dark"
@@ -33,15 +33,15 @@ function addNextDetailSection() {
 			title="Remove this detail"></a>
 	`;
 	
-	previousDivDetailSection.append(htmlLinkRemove);//thêm link delete
+	previousDivDetailSection.append(htmlLinkRemove);//thêm link delete vào div kế cuối
 	
 	$("input[name='detailNames']").last().focus();//focus vào detail cuối(sau khi đã thêm detail)
 }
 
 function removeDetailSectionById(id) {
-	$("#" + id).remove();
+	$("#" + id).remove();//xóa div theo id
 }
 
 function removeDetailSectionByIndex(index) {
-	$("#divDetail" + index).remove();	
+	$("#divDetail" + index).remove();//xóa div theo id
 }

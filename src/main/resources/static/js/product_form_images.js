@@ -67,11 +67,11 @@ function addNextExtraImageSection(index) {
 	
 	$("#divProductImages").append(htmlExtraImage);//thêm extraImage vào cuối divProductImages
 	
-	$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove);//thêm link delete vào trước extraImage cuối
+	$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove);//thêm link delete vào extraImage kế cuối
 	
 	extraImagesCount++;//tăng biến extraImagesCount lên 1 để điều kiện index >= extraImagesCount - 1 nhận biết được extraImage cuối cùng 
 }
 
 function removeExtraImage(index) {
-	$("#divExtraImage" + index).remove();//xóa thẻ theo id
+	$("#divExtraImage" + index).remove();//xóa div theo id
 }

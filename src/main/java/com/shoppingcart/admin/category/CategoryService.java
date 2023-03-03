@@ -33,14 +33,14 @@ public class CategoryService {
 
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
-		Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
+		Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);//1 trang sẽ có 4 root categories -->có nghĩa là 4 categories cao nhất(ko có cha) 
 
 		Page<Category> pageCategories = null;
 
 		if (keyword != null && !keyword.isEmpty()) {
-			pageCategories = repo.search(keyword, pageable);//nếu có nhập keyword thì tìm theo keyword
+			pageCategories = repo.search(keyword, pageable);//nếu có nhập keyword thì tìm theo keyword, lưu ý khi tìm theo keyword sẽ ko cần phân cấp theo thứ tự các categories
 		} else {
-			pageCategories = repo.findRootCategories(pageable);//ko nhập keyword thì tìm tất cả
+			pageCategories = repo.findRootCategories(pageable);//ko nhập keyword thì tìm tất cả, sẽ phân cấp theo thứ tự các categories
 		}
 
 		List<Category> rootCategories = pageCategories.getContent();
@@ -49,7 +49,7 @@ public class CategoryService {
 		pageInfo.setTotalPages(pageCategories.getTotalPages());
 
 		if (keyword != null && !keyword.isEmpty()) {
-			List<Category> searchResult = pageCategories.getContent();//nếu có nhập keyword thì tìm theo keyword thì phân trang như users -->ko cần sắp xếp theo thứ tự cấp độ và ko cần thêm dấu -- vào mỗi cấp độ
+			List<Category> searchResult = pageCategories.getContent();//nếu có nhập keyword thì sẽ phân trang như users -->ko cần phân cấp theo thứ tự và ko cần thêm dấu -- vào mỗi cấp độ
 			for (Category category : searchResult) {
 				category.setHasChildren(category.getChildren().size() > 0);//true -->có con, false -->ko có con
 			}
@@ -57,11 +57,11 @@ public class CategoryService {
 			return searchResult;
 
 		} else {
-			return listHierarchicalCategories(rootCategories, sortDir);//ko nhập keyword thì tìm tất cả, sắp xếp theo thứ tự cấp độ và thêm dấu -- vào mỗi cấp độ
+			return listHierarchicalCategories(rootCategories, sortDir);//ko nhập keyword thì tìm tất cả, phân cấp theo thứ tự và thêm dấu -- vào mỗi cấp độ
 		}
 	}
 
-	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {
+	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {//phương thức dùng cho list categories, sẽ trả về tất cả các thuộc tính của category
 		List<Category> hierarchicalCategories = new ArrayList<>();
 
 		for (Category rootCategory : rootCategories) {
@@ -109,7 +109,7 @@ public class CategoryService {
 		return repo.save(category);
 	}
 
-	public List<Category> listCategoriesUsedInForm() {
+	public List<Category> listCategoriesUsedInForm() {//phương thức dùng cho form category, sẽ trả id và name của category
 		List<Category> categoriesUsedInForm = new ArrayList<>();
 
 		Iterable<Category> categoriesInDB = repo.findRootCategories(Sort.by("name").ascending());

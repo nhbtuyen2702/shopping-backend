@@ -45,7 +45,7 @@ public class UserService {
 			return userRepo.findAll(keyword, pageable);
 		}
 
-		return userRepo.findAll(pageable);//tìm tất cả nếu ko truyền keyword
+		return userRepo.findAll(pageable);//tìm tất cả users nếu ko nhập keyword
 	}
 
 	public List<Role> listRoles() {

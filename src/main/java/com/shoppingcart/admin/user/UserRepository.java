@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.shoppingcart.admin.entity.User;
-										//PagingAndSortingRepository là đối tượng dùng để phân trang, kế thừa từ CrudRepository
+//PagingAndSortingRepository kế thừa từ CrudRepository -->có các phương thức để SELECT, CREATE, UPDATE, DELETE và phân trang
 public interface UserRepository extends PagingAndSortingRepository<User, Integer> {//tham số thứ 1 là entity, tham số thứ 2 là kiểu dữ liệu của khóa chính(Primary key)
 
 	@Query("SELECT u FROM User u WHERE u.email = :email")//Spring Data JPA sẽ truy vấn theo entity và thuộc tính

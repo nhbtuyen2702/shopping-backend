@@ -72,7 +72,7 @@ public class Product extends IdBasedEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)//cascade = CascadeType.ALL -->khi thực hiện repo.save(product) thì nó sẽ thực hiện save tất cả các productImages bên trong product  
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)//cascade = CascadeType.ALL -->khi thực hiện repo.save(product) thì nó sẽ thực hiện save tất cả các productImages, productDetails bên trong product  
 	private Set<ProductImage> images = new HashSet<>();//vì 1 product có nhiều extraImages nên tạo 1 đối tượng productImage có mối quan hệ @ManyToOne với product
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -273,7 +273,7 @@ public class Product extends IdBasedEntity {
 		this.details.add(new ProductDetail(id, name, value, this));//productDetail đã từng được save xuống db
 	}
 	
-	public boolean containsImageName(String imageName) {//nếu extraImage có name trùng với extraImage khác thì ko cho save
+	public boolean containsImageName(String imageName) {//nếu extraImage có name trùng với extraImage đang tồn tại thì ko cho save
 		Iterator<ProductImage> iterator = images.iterator();
 		
 		while (iterator.hasNext()) {
@@ -287,7 +287,7 @@ public class Product extends IdBasedEntity {
 	}
 	
 	@Transient
-	public String getShortName() {
+	public String getShortName() {//hiển thị trên list categories tên ngắn lại(70 ký tự)
 		if (name.length() > 70) {
 			return name.substring(0, 70).concat("...");
 		}

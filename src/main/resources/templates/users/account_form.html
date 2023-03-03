@@ -102,7 +102,7 @@
 <script type="text/javascript">
 	moduleURL = "[[@{/}]]";
 
-	function checkPasswordMatch(confirmPassword) {//kiểm tra password có trùng khớp ko
+	function checkPasswordMatch(confirmPassword) {//kiểm tra nhập password có trùng khớp với nhau ko
 		if (confirmPassword.value != $("#password").val()) {
 			confirmPassword.setCustomValidity("Passwords do not match!");
 		} else {

@@ -37,12 +37,12 @@ public class ShoppingUserDetails implements UserDetails {//implements Interface 
 
 	@Override
 	public String getPassword() {
-		return user.getPassword();//lấy ra password của user
+		return user.getPassword();//trả về password của user
 	}
 
 	@Override
 	public String getUsername() {
-		return user.getEmail();//lấy ra email của user
+		return user.getEmail();//trả về email của user
 	}
 
 	@Override
@@ -62,10 +62,10 @@ public class ShoppingUserDetails implements UserDetails {//implements Interface 
 
 	@Override
 	public boolean isEnabled() {
-		return user.isEnabled();//enabled = true -->có thể đang nhập, enabled = false -->ko thể đăng nhập
+		return user.isEnabled();//enabled = true -->có thể đăng nhập, enabled = false -->ko thể đăng nhập
 	}
 
-	public String getFullname() {
+	public String getFullname() {//hiển thị trên navigation bar thông qua đối tượng principal
 		return this.user.getFirstName() + " " + this.user.getLastName();
 	}
 

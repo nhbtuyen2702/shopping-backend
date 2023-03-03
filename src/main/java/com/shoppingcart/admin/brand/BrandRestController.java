@@ -33,7 +33,7 @@ public class BrandRestController {
 			Brand brand = service.get(brandId);
 			Set<Category> categories = brand.getCategories();//lấy ra tất cả categories thuộc về brand hiện tại
 
-			for (Category category : categories) {//vì Brand và Category có mối quan hệ @ManyToMany. khi trả về data thì nó sẽ ko hiểu mối quan hệ này -->phải tạo 1 đối tượng CategoryDTO để lưu trữ id và name của category
+			for (Category category : categories) {//vì Brand và Category có mối quan hệ @ManyToMany, khi trả về list Categories thì nó sẽ ko hiểu mối quan hệ này -->gây ra lỗi -->phải tạo 1 đối tượng CategoryDTO để lưu trữ id và name của category và sẽ trả về list CategoriesDTO
 				CategoryDTO dto = new CategoryDTO(category.getId(), category.getName());
 				listCategories.add(dto);
 			}

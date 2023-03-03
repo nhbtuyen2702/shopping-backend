@@ -37,7 +37,7 @@ public class FileUploadUtil {
 			Files.list(dirPath).forEach(file -> {
 				if (!Files.isDirectory(file)) {
 					try {
-						Files.delete(file);//xóa tất cả file nằm bên trong folder
+						Files.delete(file);//xóa tất cả file hình nằm bên trong folder
 					} catch (IOException ex) {
 						LOGGER.error("Could not delete file: " + file);
 					}
@@ -49,7 +49,7 @@ public class FileUploadUtil {
 	}
 
 	public static void removeDir(String dir) {
-		cleanDir(dir);//xóa tất cả file nằm bên trong folder
+		cleanDir(dir);//xóa tất cả file hình nằm bên trong folder
 
 		try {
 			Files.delete(Paths.get(dir));//xóa folder

@@ -1,6 +1,6 @@
 package com.shoppingcart.admin.brand;
 
-public class CategoryDTO {//DTO: Data Transfer Object
+public class CategoryDTO {//DTO: Data Transfer Object -->đây chỉ là đối tượng dùng để lưu trữ dữ liệu tạm thời -->ko có table tương ứng trong database
 	
 	private Integer id;
 	private String name;

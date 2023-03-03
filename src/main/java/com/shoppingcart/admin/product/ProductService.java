@@ -39,7 +39,7 @@ public class ProductService {
 		if (keyword != null && !keyword.isEmpty()) {
 			if (categoryId != null && categoryId > 0) {
 				String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
-				page = repo.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);//lấy tất cả product theo keyword và categoryId
+				page = repo.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);//lấy tất cả product theo categoryId và keyword
 			} else {
 				page = repo.findAll(keyword, pageable);//lấy tất cả product theo keyword
 			}

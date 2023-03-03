@@ -30,7 +30,7 @@ public class UserController {
 
 	private String defaultRedirectURL = "redirect:/users/page/1?sortField=firstName&sortDir=asc";//đường dẫn mặc định
 
-	@Autowired//lấy Spring Bean userService trong IOC và nhúng vào Spring Bean userController -->UserService ko cần khởi tạo mà vẫn có thể sử dụng được là do nó đã được khởi tạo trong IOC
+	@Autowired//lấy Spring Bean userService trong IOC và nhúng vào Spring Bean userController -->userService ko cần khởi tạo mà vẫn có thể sử dụng được là do nó đã được khởi tạo trong IOC
 	private UserService service;
 
 	@GetMapping("/users")//localhost:8082/ShoppingCartAdmin/users
@@ -41,26 +41,26 @@ public class UserController {
 	@GetMapping("/users/page/{pageNum}")//localhost:8082/ShoppingCartAdmin/users/page/1?sortField=firstName&sortDir=asc -->1 là giá trị có thể thay đổi -->phải dùng @PathVariable(name = "pageNum") int pageNum để nó tự động gán giá trị vào biến pageNum 
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {//@Param("sortField") String sortField dùng để lấy ra giá trị của key sortField -->nó sẽ gán giá trị value vào biến sortField 
-		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);//đối tượng Page chứa các thông tin về phân trang
-		List<User> listUsers = page.getContent();//lấy ra tất cả các records trong trang hiện tại
+		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);//đối tượng Page<User> chứa các thông tin về phân trang
+		List<User> listUsers = page.getContent();//lấy ra tất cả các users trong trang hiện tại
 
-		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;//tính thứ tự của record bắt đầu trong trang hiện tại 
-		long endCount = startCount + UserService.USERS_PER_PAGE - 1;//tính thứ tự của record kết thúc trong trang hiện tại
+		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;//tính thứ tự của user bắt đầu trong trang hiện tại 
+		long endCount = startCount + UserService.USERS_PER_PAGE - 1;//tính thứ tự của user kết thúc trong trang hiện tại
 
-		if (endCount > page.getTotalElements()) {//nếu endCount > số records tối đa thì gán endCount = số records tối đa
+		if (endCount > page.getTotalElements()) {//nếu endCount > số users tối đa thì gán endCount = số users tối đa
 			endCount = page.getTotalElements();
 		}
 
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";//trường hợp nhấn sort trên firstName thì sẽ đảo ngược thứ tự của firstName
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";//trường hợp nhấn sort trên firstName thì sẽ đảo ngược thứ tự tất cả users theo firstName
 
 		model.addAttribute("currentPage", pageNum);//trang hiện tại
 		model.addAttribute("totalPages", page.getTotalPages());//tổng số trang
-		model.addAttribute("startCount", startCount);//index record bắt đầu
-		model.addAttribute("endCount", endCount);//index record kết thúc
-		model.addAttribute("totalItems", page.getTotalElements());//tổng số records(số records tối đa)
-		model.addAttribute("listUsers", listUsers);//tất cả user trong trang hiện tại
-		model.addAttribute("sortField", sortField);//field cần sắp xếp
-		model.addAttribute("sortDir", sortDir);//sắp xếp
+		model.addAttribute("startCount", startCount);//index của user bắt đầu
+		model.addAttribute("endCount", endCount);//index của user kết thúc
+		model.addAttribute("totalItems", page.getTotalElements());//tổng số users(số users tối đa)
+		model.addAttribute("listUsers", listUsers);//tất cả users trong trang hiện tại
+		model.addAttribute("sortField", sortField);//thuộc tính cần sắp xếp theo
+		model.addAttribute("sortDir", sortDir);//sắp xếp tăng dần hoặc giảm dần
 		model.addAttribute("reverseSortDir", reverseSortDir);//đảo ngược sắp xếp
 		model.addAttribute("keyword", keyword);//từ khóa tìm kiếm
 
@@ -92,8 +92,8 @@ public class UserController {
 
 			String uploadDir = "user-photos/" + savedUser.getId();
 
-			FileUploadUtil.cleanDir(uploadDir);//xóa tất cả các file nằm bên trong folder hiện tại, vì 1 user chỉ có 1 hình
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);//save hình của user vào folder hiện tại
+			FileUploadUtil.cleanDir(uploadDir);//xóa tất cả các file hình nằm bên trong folder hiện tại, vì 1 user chỉ có 1 hình
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);//save hình của user vào folder user-photos
 		} else {
 			if (user.getPhotos().isEmpty())
 				user.setPhotos(null);

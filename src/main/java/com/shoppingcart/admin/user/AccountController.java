@@ -24,7 +24,7 @@ public class AccountController {
 	private UserService service;
 
 	@GetMapping("/account")
-	public String viewDetails(@AuthenticationPrincipal ShoppingUserDetails loggedUser, Model model) {//dùng @AuthenticationPrincipal để lấy ra đối tượng ShoppingUserDetails, ShoppingUserDetails sẽ tương ứng với principal trên html  
+	public String viewDetails(@AuthenticationPrincipal ShoppingUserDetails loggedUser, Model model) {//dùng @AuthenticationPrincipal để lấy ra đối tượng ShoppingUserDetails, ShoppingUserDetails sẽ tương ứng với đối tượng principal trên html  
 		String email = loggedUser.getUsername();
 		User user = service.getByEmail(email);
 		model.addAttribute("user", user);

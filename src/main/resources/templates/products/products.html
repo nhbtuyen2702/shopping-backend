@@ -19,6 +19,7 @@
 	</div>
 		
 	<div>
+		<!-- đây là form có method GET =>toàn bộ thẻ input,select,... sẽ được chuyển thành các cặp key-value sau dấu ? -->
 		<form th:action="@{/products/page/1}" class="form-inline m-3" id="searchForm">
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
@@ -173,8 +174,8 @@
 		
 		$(".link-detail").on("click", function(e) {//lấy ra thẻ có class là .link-detail và bắt sự kiện click cho thẻ này
 			e.preventDefault();//ngăn ko cho href gọi xuống controller
-			linkDetailURL = $(this).attr("href");//lấy ra giá trị của thẻ href -->/products/detail/1
-			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);//lấy ra thẻ có id là detailModal và hiển thị, tìm đến thẻ con bên trong có class là .modal-content và load nội dung của thẻ này nội dung trả về từ /products/detail/1  
+			linkDetailURL = $(this).attr("href");//lấy ra giá trị của thuộc tính href -->/products/detail/1
+			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);//lấy ra thẻ có id là detailModal và hiển thị, tìm đến thẻ con bên trong có class là .modal-content và load nội dung của thẻ này là nội dung trả về khi gọi controller /products/detail/1  
 		});
 		
 		$("#dropdownCategory").on("change", function() {

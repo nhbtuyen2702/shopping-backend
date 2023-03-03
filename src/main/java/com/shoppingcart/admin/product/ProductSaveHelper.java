@@ -27,7 +27,7 @@ public class ProductSaveHelper {
 			Files.list(dirPath).forEach(file -> {
 				String filename = file.toFile().getName();
 				
-				if(!product.containsImageName(filename)) {//nếu trong folder extras tồn tại file hình có tên ko nằm trong product.images -->hình này đã bị xóa trên frontend -->xóa hình này trong folder extra 
+				if(!product.containsImageName(filename)) {//nếu trong folder extras tồn tại file hình có tên ko nằm trong product.images -->hình này đã bị xóa trên frontend -->xóa hình này trong folder extras 
 					try {
 						Files.delete(file);
 						LOGGER.error("Delete extra image: " + filename);
@@ -67,10 +67,10 @@ public class ProductSaveHelper {
 			String value = detailValues[count];
 			Integer id = Integer.parseInt(detailIDs[count]);
 			
-			if (id != 0) {//id != 0 -->những details đã từng được save -->edit
+			if (id != 0) {//id != 0 -->những details đã từng được save -->edit detail
 				product.addDetail(id, name, value);
 			} else if (!name.isEmpty() && !value.isEmpty()) { 
-				product.addDetail(name, value);//những details vừa được thêm mới(có id = 0) -->create
+				product.addDetail(name, value);//những details vừa được thêm mới(có id = 0) -->create detail
 			}
 		}
 	}
@@ -103,7 +103,7 @@ public class ProductSaveHelper {
 				if (!multipartFile.isEmpty()) {
 					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 					
-					if (!product.containsImageName(fileName)) {//nếu extraImage bị trùng tên với extraImage khác -->ko cho save
+					if (!product.containsImageName(fileName)) {//nếu extraImage bị trùng tên với extraImage đang tồn tại -->ko cho save
 						product.addExtraImage(fileName);
 					}
 				}

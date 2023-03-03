@@ -4,6 +4,7 @@
 </div>
 
 <div>
+	<!-- phân chia các thông tin của product theo từng tab -->
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 	  <li class="nav-item">
 	    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
@@ -99,7 +100,7 @@
 			<label class="col-sm-2 col-form-label">Updated Time:</label>
 			
 			<div class="col-sm-10">
-				<span th:text="${#dates.format(product.updatedTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+				<span th:text="${#dates.format(product.updatedTime, 'yyyy-MM-dd HH:mm:ss')}"></span><!-- sẽ hiển thị ngày theo định dạng yyyy-MM-dd HH:mm:ss -->
 			</div>
 		</div>			  	
 	  </div>

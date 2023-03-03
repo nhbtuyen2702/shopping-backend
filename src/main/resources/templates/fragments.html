@@ -18,7 +18,7 @@
 
 <body>
 
-	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}"><!-- th:remove='tag' =>xóa thẻ ngoài cùng, th:remove='none' =>giữa thẻ ngoài cùng -->
+	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}"><!-- th:remove='tag' =>bỏ thẻ ngoài cùng, th:remove='none' =>giữ thẻ ngoài cùng -->
 		<a class="text-white"
 			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
 			[[${columnLabel}]]

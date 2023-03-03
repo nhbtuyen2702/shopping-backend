@@ -24,7 +24,7 @@
 		
 		<!-- Ví dụ có 2 trường hợp xảy ra ở đây
 		vd1: create =>ko hiển thị
-		vd2: edit và đã save 3 extraImages trước đó =>load extraImages 0,1,2
+		vd2: edit và đã save 3 extraImages trước đó =>load extraImage 0,1,2
 		 -->
 		<th:block th:each="productImage, status : ${product.images}">
 			<div class="col border m-3 p-2" th:id="'divExtraImage' + ${status.index}">

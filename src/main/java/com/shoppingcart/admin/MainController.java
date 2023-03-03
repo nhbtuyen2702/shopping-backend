@@ -17,7 +17,7 @@ public class MainController {
 	@GetMapping("/login")
 	public String viewLoginPage() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();//trường hợp vừa login xong, đang ở trang index, bấm back lại thì nó vẫn giữ ở trang index
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {//nếu authentication == null thì chưa login
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {//nếu authentication == null thì có nghĩa là chưa login -->trả về trang login
 			return "login";
 		}
 

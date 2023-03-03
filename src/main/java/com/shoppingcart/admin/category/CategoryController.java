@@ -38,7 +38,7 @@ public class CategoryController {
 			sortDir = "asc";
 		}
 
-		CategoryPageInfo pageInfo = new CategoryPageInfo();//CategoryPageInfo là đối tượng dùng để lưu trữ totalPages và totalElements  
+		CategoryPageInfo pageInfo = new CategoryPageInfo();//CategoryPageInfo là đối tượng dùng để lưu trữ totalPages và totalElements. Vì listByPage trả về List<Category> chứ ko trả về Page<Category>  
 		List<Category> listCategories = service.listByPage(pageInfo, pageNum, sortDir, keyword);
 
 		long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;

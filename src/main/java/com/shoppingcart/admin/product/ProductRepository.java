@@ -23,12 +23,12 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 			+ "OR p.fullDescription LIKE %?1% "
 			+ "OR p.brand.name LIKE %?1% "
 			+ "OR p.category.name LIKE %?1%")
-	public Page<Product> findAll(String keyword, Pageable pageable);//tìm product theo keyword và phân trang
+	public Page<Product> findAll(String keyword, Pageable pageable);//ko chọn dropdown và có nhập keyword
 
 	@Query("SELECT p FROM Product p WHERE p.category.id = ?1 "
 			+ "OR p.category.allParentIDs LIKE %?2%")	
 	public Page<Product> findAllInCategory(Integer categoryId, String categoryIdMatch, 
-			Pageable pageable);
+			Pageable pageable);//có chọn dropdown và ko nhập keyword
 	
 	@Query("SELECT p FROM Product p WHERE (p.category.id = ?1 "
 			+ "OR p.category.allParentIDs LIKE %?2%) AND "
@@ -38,6 +38,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 			+ "OR p.brand.name LIKE %?3% "
 			+ "OR p.category.name LIKE %?3%)")			
 	public Page<Product> searchInCategory(Integer categoryId, String categoryIdMatch, 
-			String keyword, Pageable pageable);
+			String keyword, Pageable pageable);//có chọn dropdown và có nhập keyword
 	
 }

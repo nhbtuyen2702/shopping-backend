@@ -12,9 +12,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-//Lưu ý cách đặt tên trong toàn bộ entity này, khi tạo xong table thì phải alter table vả sắp xếp thứ tự các cột giống trong entity
-@Entity//khai báo class này là 1 entity, nếu ko khai báo name cho entity thì nó lấy tên class làm tên entity
-@Table(name = "users")//khai báo table tương ứng của entity này là users
+//Lưu ý cách đặt tên trong toàn bộ entity này, khi tạo xong table trong db thì phải alter table và sắp xếp thứ tự các cột giống thứ tự thuộc tính trong entity
+@Entity//khai báo class này là 1 entity, nếu ko khai báo name cho entity thì nó lấy tên class làm tên entity(thường tên entity sẽ là tên class)
+@Table(name = "users")//khai báo table tương ứng của entity này là users, nếu ko khai báo name cho table thì nó lấy tên class làm tên table(tên table là số nhiều)
 public class User extends IdBasedEntity {
 
 	@Column(length = 128, nullable = false, unique = true)//length: độ dài lưu trữ, nullable: có cho save null hay ko, unique: có cho phép trùng hay ko
@@ -23,7 +23,7 @@ public class User extends IdBasedEntity {
 	@Column(length = 64, nullable = false)
 	private String password;
 
-	@Column(name = "first_name", length = 45, nullable = false)//khai báo tên cột là first_name, nếu ko khai báo sẽ lấy tên thuộc tính làm tên cột
+	@Column(name = "first_name", length = 45, nullable = false)//khai báo tên cột là first_name, nếu ko khai báo sẽ lấy tên thuộc tính làm tên cột(mỗi từ trong tên cột được ngăn bởi dấu _)
 	private String firstName;
 
 	@Column(name = "last_name", length = 45, nullable = false)

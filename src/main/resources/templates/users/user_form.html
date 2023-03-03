@@ -114,16 +114,16 @@
 
       function checkEmailUnique(form) {
          url = "[[@{/users/check_email}]]";
-         userEmail = $("#email").val();//dùng JQuery để lấy ra giá trị của thẻ theo email
+         userEmail = $("#email").val();//dùng JQuery để lấy ra giá trị của thẻ có id là email
          userId = $("#id").val();
 
          csrfValue = $("input[name='_csrf']").val();
 
-         params = { id: userId, email: userEmail, _csrf: csrfValue };//vì đây là method POST nên sẽ truyền data xuống controller bằng body =>tạo đối tượng object params
+         params = { id: userId, email: userEmail, _csrf: csrfValue };//vì đây là method POST nên sẽ truyền data xuống controller bằng body =>tạo đối tượng object params để truyền xuống controller
 
          $.post(url, params, function (response) {//dùng Ajax JQuery để gọi xuống controller
             if (response == "OK") {
-               form.submit();//nếu controller trả về "OK" -->ko trùng -->form.submit() sẽ gọi @PostMapping("/users/save")
+               form.submit();//nếu controller trả về "OK" -->ko trùng -->form.submit() sẽ thực hiện action của form -->@PostMapping("/users/save")
             } else if (response == "Duplicated") {
                showWarningModal("There is another user having the email " + userEmail);//nếu trùng thì hiện modal báo lỗi
             } else {

@@ -6,17 +6,17 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.1</version>
+		<version>2.4.1</version><!-- version của Spring Boot -->
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.shoppingcart</groupId>
-	<artifactId>shopping-backend</artifactId>
+	<groupId>com.shoppingcart</groupId><!-- folder chứa gói jar build ra từ project này theo cấp độ của groupId/artifactId/version -->
+	<artifactId>shopping-backend</artifactId><!-- tên project -->
 	<version>0.0.1-SNAPSHOT</version>
 	<name>shopping-backend</name>
 	<description>Shopping Backend</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.8</java.version><!-- version jdk -->
 	</properties>
 
 	<dependencies>
@@ -45,23 +45,25 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		
+		<!-- gói jar để sử dụng Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
-		<!-- gói jar để sử dụng thymeleaf -->
+		<!-- gói jar để sử dụng Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		
+		<!-- gói jar để sử dụng Spring Security bằng Thymeleaf  -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
-		<!-- gói jar chạy app -->
+		<!-- gói jar chứa server chạy app -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

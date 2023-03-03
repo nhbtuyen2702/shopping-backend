@@ -86,14 +86,14 @@
 		
 		dropdownCategories.change(function() {
 			divChosenCategories.empty();//xóa tất cả các giá trị ở div bên dưới
-			showChosenCategories();//dùng for để load lại từ đầu
+			showChosenCategories();//dùng for để load lại tất cả các giá trị được chọn trong dropdown
 		});
 		
 		showChosenCategories();
 	});
 	
 	function showChosenCategories() {
-		dropdownCategories.children("option:selected").each(function() {//lấy ra các thẻ con của thẻ select và chỉ lấy các thẻ "selected" -->trả về tất cả các thẻ đang selected
+		dropdownCategories.children("option:selected").each(function() {//lấy ra các thẻ con của thẻ select và chỉ lấy các thẻ đang được chọn(selected) -->trả về tất cả các thẻ đang selected
 			selectedCategory = $(this);
 			catId = selectedCategory.val();//lấy ra id của option
 			catName = selectedCategory.text().replace(/-/g, "");//lấy ra name của option
