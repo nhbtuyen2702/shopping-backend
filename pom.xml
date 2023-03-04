@@ -18,6 +18,23 @@
 	<properties>
 		<java.version>1.8</java.version><!-- version jdk -->
 	</properties>
+	
+	<!-- 
+	Cấu trúc project như sau:
+	shoppingcart-project (root project pom)
+		shoppingcart-common (module 1(jar))	=>chứa những class,interface,... dùng chung cho backend và frontend
+		shoppingcart-webparent (module 2(pom)) =>chứa những dependencies dùng chung cho backend và frontend
+			shoppingcart-backend (module 2a(jar))
+			shoppingCart-frontend (module 2b(jar))
+			
+	Tạo shoppingcart-project
+	Tạo shoppingcart-common và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-webparent và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-backend và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-frontend và copy vào bên trong folder shoppingcart-project	
+	
+	Thay đổi file pom.xml của tất cả project
+	-->
 
 	<dependencies>
 		<!-- gói jar để cấu hình đây là một app Spring Boot -->
