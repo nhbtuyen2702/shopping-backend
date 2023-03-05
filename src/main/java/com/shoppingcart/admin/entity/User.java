@@ -20,19 +20,19 @@ public class User extends IdBasedEntity {
 	@Column(length = 128, nullable = false, unique = true)//length: độ dài lưu trữ, nullable: có cho save null hay ko, unique: có cho phép trùng hay ko
 	private String email;
 
-	@Column(length = 64, nullable = false)
-	private String password;
-
+	private boolean enabled;
+	
 	@Column(name = "first_name", length = 45, nullable = false)//khai báo tên cột là first_name, nếu ko khai báo sẽ lấy tên thuộc tính làm tên cột(mỗi từ trong tên cột được ngăn bởi dấu _)
 	private String firstName;
 
 	@Column(name = "last_name", length = 45, nullable = false)
 	private String lastName;
 
+	@Column(length = 64, nullable = false)
+	private String password;
+	
 	@Column(length = 64)
 	private String photos;
-
-	private boolean enabled;
 
 	@ManyToMany(fetch = FetchType.EAGER)//fetch = FetchType.EAGER, nếu lấy user thì cũng sẽ lấy toàn bộ roles thuộc về user đó
 	@JoinTable(name = "users_roles", //tạo ra table tên là users_roles, users_roles chứa khóa ngoại user_id trỏ đến id của table users và role_id trỏ đến id của table roles
