@@ -27,12 +27,12 @@ public class Category extends IdBasedEntity {
 	
 	private boolean enabled;
 	
-	@Column(name = "all_parent_ids", length = 256, nullable = true)
-	private String allParentIDs;//solution để tìm product theo category -->allParentIDs sẽ chứa tất cả id của cha,ông,... nó
-
 	@OneToOne//1-1
 	@JoinColumn(name = "parent_id")//tạo ra cột parent_id trong table categories, parent_id là khóa ngoại sẽ trỏ đến khóa chính id của table categories
 	private Category parent;//1-1 nên khai báo 1 đối tượng
+	
+	@Column(name = "all_parent_ids", length = 256, nullable = true)
+	private String allParentIDs;//solution để tìm product theo category -->allParentIDs sẽ chứa tất cả id của cha,ông,... nó
 
 	@OneToMany(mappedBy = "parent")//1-N
 	@OrderBy("name asc")//các categories trả về được sắp xếp theo name tăng dần, name là tên thuộc tính trong entity
